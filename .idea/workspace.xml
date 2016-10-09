@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b6d67aeb-5d64-4ba3-b19c-a105faaa16e8" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/content.js" afterPath="$PROJECT_DIR$/content.js" />
-    </list>
+    <list default="true" id="b6d67aeb-5d64-4ba3-b19c-a105faaa16e8" name="Default" comment="" />
     <ignored path="Dyslexia-Simulator-master.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -203,15 +201,15 @@
       <updated>1475690806547</updated>
       <workItem from="1475690807664" duration="8865000" />
       <workItem from="1475952204291" duration="12813000" />
-      <workItem from="1475966676678" duration="14083000" />
+      <workItem from="1475966676678" duration="14141000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="35761000" />
+    <option name="totallyTimeSpent" value="35819000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="0" width="1922" height="1054" extended-state="7" />
+    <frame x="-1" y="0" width="1922" height="1054" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24960506" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />

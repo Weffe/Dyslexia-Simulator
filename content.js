@@ -105,6 +105,8 @@ $(document).ready(function()
     function shuffle (word)
     {
         // swap 2 letters in the word
+        // this includes all letters
+        // e.g. apple can be ppael
         if ( word.length >= 3)
         {
             var arr = [...word];

@@ -20,10 +20,6 @@
   "content_scripts": [{
     "matches": ["<all_urls>"],
     "run_at":"document_end",
-<<<<<<< 9ad78061f1e2f48a399e553dfea9ece2e4cae15f
-    "js": ["jquery-3.1.1.min.js", "content.js"]
-=======
     "js": ["assests/jquery-3.1.1.min.js", "content.js"]
->>>>>>> 7c20aa437ec99c7de03dcaa5197c1c8285741816
   }]
 }

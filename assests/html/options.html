@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Options - Dyslexia Simulator</title>
+    <link rel="stylesheet" type="text/css" href="../../assests/css/style.css">
+    <script type="text/javascript" src="../../assests/js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="../../assests/js/options.js"></script>
+</head>
+
+<body>
+
+    <section>
+        <header>
+            <h1>Options - Dyslexia Simulator</h1>
+        </header>
+    </section>
+
+    <section>
+        <div class="form-error">
+            <ul></ul>
+        </div>
+        <form id="options_form">
+            <div id="disableButton">
+                <label for="pluginState"><span id="state_placeholder">Disable</span> Dyslexia Simulator</label>
+                <input type="checkbox" id="pluginState" name="pluginState">
+            </div>
+
+            <div>
+                <label for="intervalValue" >Interval Value (ms)</label>
+                <input type="text" id="intervalValue" name="intervalValue" placeholder="20" value="20">
+            </div>
+
+            <div>
+                <label for="chanceOfModification">Chance of Modification (%)</label>
+                <input type="text" id="chanceOfModification" name="chanceOfModification" placeholder="10" value="10">
+            </div>
+
+            <div>
+                <input type="submit" value="Save Changes">
+                <span class="form-response"></span>
+            </div>
+        </form>
+    </section>
+
+    <section>
+        <header>
+            <h3>More Info</h3>
+        </header>
+
+        <div id="helpInfo">
+            <div>
+                <b>interval value</b>
+                <span class="details"> - This controls how often the plugin is called. The lower the value the more often it gets called and vice versa. <i>Accepts values equal or greater than 1.</i></span>
+            </div>
+            <div>
+                <b>chance of modification</b>
+                <span class="details"> - This controls the chance of a word being shuffled. With 100% being that a word will always be shuffled. <i>Accepts values between 0 to 100.</i></span>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

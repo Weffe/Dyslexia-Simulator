@@ -1,0 +1,51 @@
+body {
+    min-width: 275px;
+}
+
+header h1,h3 {
+    padding-bottom: 10px;
+    border-bottom: 1px solid lightgrey;
+}
+h3 {
+    padding-top: 5px;
+    color: cornflowerblue;
+}
+
+section {
+    margin-bottom: 10px;
+}
+
+section input[type="text"] {
+    max-width: 50px;
+}
+
+#options_form > div {
+    margin: 6px 0px;
+    padding: 5px 0px;
+}
+
+#options_form input[type="text"], #options form input[type="checkbox"] {
+    margin-left: 5px;
+}
+
+#helpInfo > div {
+     margin: 5px 0px;
+}
+
+.details i {
+    color: cornflowerblue;
+}
+.form-error {
+    background: indianred;
+    border-radius: 5px;
+}
+.form-error ul {
+    color: white;
+}
+.form-error ul li {
+    padding: 5px;
+    margin-left: -5px;
+}
+.form-response {
+    color: green;
+}

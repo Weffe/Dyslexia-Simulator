@@ -11,13 +11,6 @@ $(function(){
 	// var textNodes = getTextNodesIn($("p, h1, h2, h3"));
 	var textNodes = getTextNodesIn($("*"));
 
-
-
-	function isLetter(char) {
-		return /^[\d]$/.test(char);
-	}
-
-
 	var wordsInTextNodes = [];
 	for (var i = 0; i < textNodes.length; i++) {
 		var node = textNodes[i];
@@ -39,7 +32,6 @@ $(function(){
 
 		wordsInTextNodes[i] = words;
 	};
-
 
 	function messUpWords () {
 
@@ -101,6 +93,7 @@ $(function(){
 
 
 	setInterval(messUpWords, 50);
+
 });
 
 

@@ -3,20 +3,19 @@
 $(document).ready(function()
 {
     // global variables for this scope
-    var textNodesList, textMetaDict;
+    var textNodesList = getTextNodes($("body"));
+    var textMetaDict = buildTextMetaDict(textNodesList);
 
     // returns: a list of text nodes
     // example output: ["2 points", "Finland", ...]
     function getTextNodes(el)
     {
         // find text nodes only
-        var textNodes = $(el).find(":not(iframe, script)").addBack().contents().filter( function()
+        return $(el).find(":not(iframe, script)").addBack().contents().filter( function()
         {
             var re = /\S/;
-            return this.nodeType == 3;// && re.test(this.nodeValue);
+            return this.nodeType == 3 && re.test(this.nodeValue);
         });
-
-        textNodesList = textNodes;
     }
 
     /*
@@ -25,11 +24,13 @@ $(document).ready(function()
      */
     function buildTextMetaDict(textNodesList)
     {
-        var metaDict = []; // array of arrays to hold our result. Needed for non-unique keys
-                                // e.g. {"key1":"value2", "key1":"value4"}
+        var metaDict = [];  // array of arrays to hold our result. Needed for non-unique keys
+                            // e.g. {"key1":"value2", "key1":"value4"}
 
-        for (var node in textNodesList)
+        for (var i = 0; i < textNodesList.length; i++)
         {
+            var node = textNodesList[i];
+
             var metaInfo = [];  // array of separated words to store as the value of node
                                 // e.g. [{length:index}, {length:index}]
             var re = /\w+/g; // regex to match 1 or more characters
@@ -50,10 +51,10 @@ $(document).ready(function()
             metaDict.push(metaInfo);
         }
 
-        textMetaDict = metaDict;
+        return metaDict;
     }
 
-    function mTN()
+    function modifyTextNode()
     {
         // randomly select a text Node to modify
         var randomIndex = getRandomInt(0, textNodesList.length);
@@ -71,14 +72,14 @@ $(document).ready(function()
             var word = node.nodeValue.slice(metaInfo.position, metaInfo.position + metaInfo.length);
             var textBeforeWord = node.nodeValue.slice(0, metaInfo.position);
             var textAfterWord  = node.nodeValue.slice(metaInfo.position + metaInfo.length);
-            var shuffled_word = shuffle(word);
+            var shuffledWord = shuffle(word);
 
             // modify "word" and concatenate before assigning node it's new nodeValue
-            node.nodeValue = textBeforeWord + shuffled_word + textAfterWord;
+            node.nodeValue = textBeforeWord + shuffledWord + textAfterWord;
         }
     }
 
-    function modifyTextNode()
+    function mTN()
     {
         for (var i = 0; i < textNodesList.length; i++)
         {
@@ -94,10 +95,10 @@ $(document).ready(function()
                 var word = node.nodeValue.slice(metaInfo.position, metaInfo.position + metaInfo.length);
                 var textBeforeWord = node.nodeValue.slice(0, metaInfo.position);
                 var textAfterWord = node.nodeValue.slice(metaInfo.position + metaInfo.length);
-                var shuffled_word = shuffle(word);
+                var shuffledWord = shuffle(word);
 
                 // modify "word" and concatenate before assigning node it's new nodeValue
-                node.nodeValue = textBeforeWord + shuffled_word + textAfterWord;
+                node.nodeValue = textBeforeWord + shuffledWord + textAfterWord;
             }
         }
     }
@@ -132,7 +133,6 @@ $(document).ready(function()
         return word;
     }
 
-
     // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
     // Returns a random integer between min (included) and max (excluded)
     function getRandomInt(min, max)
@@ -140,16 +140,14 @@ $(document).ready(function()
         return Math.floor(Math.random() * (max - min) + min);
     }
 
-    function start()
-    {
-        getTextNodes($("body"));
-        buildTextMetaDict(textNodesList);
+    //modifyTextNode();
+    //setInterval(modifyTextNode, 1);
 
-        //modifyTextNode();
-        setInterval(modifyTextNode, 50);
-    }
-
-    // Start the plugin
-    start();
-
+    /* TODO
+     1) create properties dropdown for the plugin button
+        - intervalValue =>  number of ms to wait before calling the script again
+        - chanceOfModifcation => chance percentage a word is modified... 1/10 = 0.1 = 10% ... the higher chance % the more often a word can change
+        - runScriptState => if TRUE then run script. if FALSE then do nothing.
+        - do not run script on google domains. google.com/* or google.com/search/*, etc.
+    */
 });

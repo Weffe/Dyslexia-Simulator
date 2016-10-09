@@ -15,7 +15,7 @@ $(function(){
 	for (var i = 0; i < textNodes.length; i++) {
 		var node = textNodes[i];
 
-		var words = []
+		var words = [];
 
 		var re = /\w+/g;
 		var match;

@@ -4,8 +4,8 @@ $(document).ready(function()
 {
     // defualt settings
     var pluginState_val;
-    var intervalValue_val
-    var chanceOfModification_val
+    var intervalValue_val;
+    var chanceOfModification_val;
 
     $("#options_form").submit(function (event)
     {
@@ -26,8 +26,6 @@ $(document).ready(function()
         }
 
         processFlags(intervalValue_flag, chanceOfModification_flag);
-
-        saveSettings();
 
         event.preventDefault();
     });
@@ -59,13 +57,16 @@ $(document).ready(function()
             form_error_ul.remove('.chanceOfModification_msg');
         }
 
-        //special check if the form was complete on the first try
+        //special check if the form is complete
         if(!intervalValue_flag && !chanceOfModification_flag)
         {
             $('.form-response').text('Saved your changes!').stop()
                 .fadeIn(1000, function() {
                     $(this).fadeOut(1000);
             });
+
+            // everything is good to save
+            saveSettings();
         }
 
     }
@@ -73,48 +74,41 @@ $(document).ready(function()
     function saveSettings()
     {
         chrome.storage.sync.set({ "pluginState_val": pluginState_val}, function(){
-            console.log("saved plugin state", pluginState_val)
+            console.log("saved plugin state: ", pluginState_val)
         });
         chrome.storage.sync.set({ "intervalValue_val": intervalValue_val}, function(){
-            console.log("saved interval value", intervalValue_val)
+            console.log("saved interval value: ", intervalValue_val)
         });
         chrome.storage.sync.set({ "chanceOfModification_val": chanceOfModification_val}, function(){
-            console.log("saved chance of mod", chanceOfModification_val)
+            console.log("saved chance of mod: ", chanceOfModification_val)
         });
     }
 
-    function loadSettings(pluginState_val, intervalValue_val, chanceOfModification_val)
+    function loadSettings(callback)
     {
-        chrome.storage.sync.get("pluginState_val", function(data){
-            if (typeof data.pluginState_val === "undefined")
-                pluginState_val = false;
+        // pass in a dict with default values for each key if its empty
+        var params = {"pluginState_val":false, "intervalValue_val":20, "chanceOfModification_val":10};
+
+        chrome.storage.sync.get(params, function (data) {
+            //update vars
             pluginState_val = data.pluginState_val;
-        });
-        chrome.storage.sync.get("intervalValue_val", function(data){
-            if (typeof data.intervalValue_val === "undefined")
-                intervalValue_val = 20;
             intervalValue_val = data.intervalValue_val;
-        });
-        chrome.storage.sync.get("chanceOfModification_val", function(data){
-            if (typeof data.chanceOfModification_val === "undefined")
-                chanceOfModification_val = 10;
             chanceOfModification_val = data.chanceOfModification_val;
 
-            //**********************************
-            //data actually loads but only inside this function scope.
-            //cant get it to return the data to the global variable
-            console.log(chanceOfModification_val);
-
+            //update UI
+            $('#pluginState').prop("checked", pluginState_val);
+            $('#intervalValue').val(intervalValue_val);
+            $('#chanceOfModification').val(chanceOfModification_val);
         });
+
+
+        // our callback function
+        if (callback && typeof(callback)=== "function")
+            callback();
     }
 
 
     //on-ready
-    loadSettings(pluginState_val, intervalValue_val, chanceOfModification_val);
-    /*
-    console.log("pluginState_val: ", pluginState_val);
-    console.log("intervalValue_val: ", intervalValue_val);
-    console.log("chanceOfModification_val: ", chanceOfModification_val);
-    */
+    loadSettings();
 
 });

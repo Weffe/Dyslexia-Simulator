@@ -121,6 +121,7 @@ $(document).ready(function()
         });
     }
 
-    //on-ready
+    //********************************************************
+    // on-ready load our settings from chrome storage
     loadSettings();
 });

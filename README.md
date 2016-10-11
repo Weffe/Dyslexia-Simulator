@@ -2,7 +2,7 @@
 Chrome Extension to simulate what it would be like to have dyslexia.
 Because when life gives you melons, you might be dyslexic.
 
-####The plugin avoids running on any google.com website.
+####The plugin avoids running on any google.com websites.
 
 --
 

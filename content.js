@@ -85,6 +85,9 @@ $(document).ready(function()
             // modify "word" and concatenate before assigning node it's new nodeValue
             node.nodeValue = textBeforeWord + shuffledWord + textAfterWord;
         }
+
+        // eval the plugin state after each modification to look for updates
+        evalPluginState();
     }
 
     // iteratively go over every text node and randomly every word
@@ -171,19 +174,14 @@ $(document).ready(function()
     {
         if (pluginState_val) {
             // this means the user wants to disable the plugin
-            try {
-                // Sloppy fix for the on/off bug
-                chanceOfModification_val = 0;
-                //clearInterval(intervalID);
-            }
-            catch (error) {
-                console.log ("Error from evalPLuginState: " + error);
-            }
+            clearTimeout(intervalID);
         }
         else
         {
             // enable the plugin
-            intervalID = setInterval(modifyTextNode, intervalValue_val);
+            (function(){
+                intervalID = setTimeout(modifyTextNode, intervalValue_val);
+            })();
         }
     }
 

@@ -23,8 +23,9 @@ Because when life gives you melons, you might be dyslexic.
 
 ### Options
 
-interval value - This controls how often the plugin is called. The lower the value the more often it gets called and vice versa. Accepts values equal or greater than 1.
-chance of modification - This controls the chance of a word being shuffled. With 100% being that a word will always be shuffled. Accepts values between 0 to 100.
+* interval value - This controls how often the plugin is called. The lower the value the more often it gets called and vice versa. Accepts values equal or greater than 1.
+
+* chance of modification - This controls the chance of a word being shuffled. With 100% being that a word will always be shuffled. Accepts values between 0 to 100.
 
 --
 

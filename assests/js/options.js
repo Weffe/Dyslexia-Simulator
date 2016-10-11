@@ -73,42 +73,54 @@ $(document).ready(function()
 
     function saveSettings()
     {
-        chrome.storage.sync.set({ "pluginState_val": pluginState_val}, function(){
-            console.log("saved plugin state: ", pluginState_val)
+        var params = {"pluginState_val": pluginState_val, "intervalValue_val": intervalValue_val, "chanceOfModification_val": chanceOfModification_val};
+        chrome.storage.sync.set(params, function(){
+            console.log("saving values from Form... Sending them to Content.js");
+            // send our updated settings
+            sendSettings(params);
         });
-        chrome.storage.sync.set({ "intervalValue_val": intervalValue_val}, function(){
-            console.log("saved interval value: ", intervalValue_val)
-        });
-        chrome.storage.sync.set({ "chanceOfModification_val": chanceOfModification_val}, function(){
-            console.log("saved chance of mod: ", chanceOfModification_val)
-        });
+
+
     }
 
-    function loadSettings(callback)
+    function loadSettings()
     {
         // pass in a dict with default values for each key if its empty
         var params = {"pluginState_val":false, "intervalValue_val":20, "chanceOfModification_val":10};
 
         chrome.storage.sync.get(params, function (data) {
-            //update vars
+            // update vars
             pluginState_val = data.pluginState_val;
             intervalValue_val = data.intervalValue_val;
             chanceOfModification_val = data.chanceOfModification_val;
 
-            //update UI
+            // update UI
             $('#pluginState').prop("checked", pluginState_val);
             $('#intervalValue').val(intervalValue_val);
             $('#chanceOfModification').val(chanceOfModification_val);
+
+            // loaded/updated values for params
+            var loadedParams = {"pluginState_val": pluginState_val, "intervalValue_val": intervalValue_val, "chanceOfModification_val": chanceOfModification_val};
+
+            // send our loaded settings as a dict with the updated values
+            sendSettings(loadedParams);
         });
-
-
-        // our callback function
-        if (callback && typeof(callback)=== "function")
-            callback();
     }
 
+    // send updated values to content.js
+    // takes in a params variable of type dict {}
+    function sendSettings(params) {
+        chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+            chrome.tabs.sendMessage(tabs[0].id, params, function (response) {
+                if (chrome.runtime.lastError) {
+                    console.log('ERROR: ' + chrome.runtime.lastError.message);
+                } else {
+                    console.log(response);
+                }
+            });
+        });
+    }
 
     //on-ready
     loadSettings();
-
 });

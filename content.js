@@ -5,6 +5,11 @@ $(document).ready(function()
     // global variables for this scope
     var textNodesList = getTextNodes($("body"));
     var textMetaDict = buildTextMetaDict(textNodesList);
+    var intervalID; // holds interval obj
+    // default values for options page
+    var pluginState_val; // this controls if the plugin is enabled/disabled
+    var intervalValue_val; // this controls how often a text node is modified
+    var chanceOfModification_val; // this controls the chance of a word in a text node is modified
 
     // returns: a list of text nodes
     // example output: ["2 points", "Finland", ...]
@@ -54,6 +59,7 @@ $(document).ready(function()
         return metaDict;
     }
 
+    // randomly go over every text node and randomly every word
     function modifyTextNode()
     {
         // randomly select a text Node to modify
@@ -63,8 +69,10 @@ $(document).ready(function()
         // loop through node's meta info
         for (var j = 0; j < textMetaDict[randomIndex].length; j++)
         {
-            // Only change a tenth of the words each round.
-            if (Math.random() > 1/10)
+            // For every word there is a % chance that it will or will not be modified
+            // this is controlled by chanceOfModification set via the options page.
+            // we need to divide by 100 to convert from percentage to decimal
+            if (Math.random() > (chanceOfModification_val/100))
                 continue;
 
             var metaInfo = textMetaDict[randomIndex][j];
@@ -79,6 +87,7 @@ $(document).ready(function()
         }
     }
 
+    // iteratively go over every text node and randomly every word
     function mTN()
     {
         for (var i = 0; i < textNodesList.length; i++)
@@ -140,14 +149,60 @@ $(document).ready(function()
         return Math.floor(Math.random() * (max - min) + min);
     }
 
-    //modifyTextNode();
-    //setInterval(modifyTextNode, 1);
+    // load settings from google storage
+    function initiatePlugin()
+    {
+        // First load our default values
+        // pass in a dict with default values for each key if its empty
+        var params = {"pluginState_val":false, "intervalValue_val":20, "chanceOfModification_val":10};
 
-    /* TODO
-     1) create properties dropdown for the plugin button
-        - intervalValue =>  number of ms to wait before calling the script again
-        - chanceOfModifcation => chance percentage a word is modified... 1/10 = 0.1 = 10% ... the higher chance % the more often a word can change
-        - runScriptState => if TRUE then run script. if FALSE then do nothing.
-        - do not run script on google domains. google.com/* or google.com/search/*, etc.
-    */
+        chrome.storage.sync.get(params, function (data) {
+            // update vars
+            pluginState_val = data.pluginState_val;
+            intervalValue_val = data.intervalValue_val;
+            chanceOfModification_val = data.chanceOfModification_val;
+
+            // with our loaded values, eval the plugin state and run script
+            evalPluginState();
+        });
+    }
+
+    function evalPluginState()
+    {
+        if (pluginState_val) {
+            // this means the user wants to disable the plugin
+            try {
+                // Sloppy fix for the on/off bug
+                chanceOfModification_val = 0;
+                //clearInterval(intervalID);
+            }
+            catch (error) {
+                console.log ("Error from evalPLuginState: " + error);
+            }
+        }
+        else
+        {
+            // enable the plugin
+            intervalID = setInterval(modifyTextNode, intervalValue_val);
+        }
+    }
+
+    // add listener to recieve messages from options.js
+    chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+
+        // update settings values that are sent from options.js
+        pluginState_val = request.pluginState_val;
+        intervalValue_val = request.intervalValue_val;
+        chanceOfModification_val = request.chanceOfModification_val;
+
+        // eval the plugin state again with new settings
+        evalPluginState();
+
+        sendResponse("Hello, from Content.js... Got your message!: " + JSON.stringify(request));
+    });
+
+
+    //********************************************************
+    // on-ready
+    initiatePlugin();
 });

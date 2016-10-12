@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "dyslexia simulator",
-  "version": "0.1",
+  "version": "1.0",
 
   "description": "This extension simulates dyslexia. Just how if life gives you melons then you might be dyslexic.",
 

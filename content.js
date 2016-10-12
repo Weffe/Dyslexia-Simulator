@@ -10,6 +10,7 @@ $(document).ready(function()
     var pluginState_val; // this controls if the plugin is enabled/disabled
     var intervalValue_val; // this controls how often a text node is modified
     var chanceOfModification_val; // this controls the chance of a word in a text node is modified
+	var target = document.body; // target for observer
 
     // returns: a list of text nodes
     // example output: ["2 points", "Finland", ...]
@@ -186,7 +187,8 @@ $(document).ready(function()
     }
 
     // add listener to recieve messages from options.js
-    chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) 
+	{
 
         // update settings values that are sent from options.js
         pluginState_val = request.pluginState_val;
@@ -199,8 +201,25 @@ $(document).ready(function()
         sendResponse("Hello, from Content.js... Got your message!: " + JSON.stringify(request));
     });
 
+	function observeDOM() 
+	{		
+		// define a new observer
+		var obs = new MutationObserver(function(mutations, observer){
+			if( mutations[0].addedNodes.length || mutations[0].removedNodes.length )
+			{
+				console.log('dom changed');
+			}
+		});
+		
+		// have the observer observe foo for changes in children
+		obs.observe( target, { childList:true, subtree:true });			
+	}
 
     //********************************************************
     // on-ready
     initiatePlugin();
+
+	// Observe a specific DOM element:
+	observeDOM();
+
 });

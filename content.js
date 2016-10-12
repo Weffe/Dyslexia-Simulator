@@ -1,3 +1,5 @@
+// version: 1.0
+
 "use strict";
 
 $(document).ready(function()

@@ -6,18 +6,11 @@ Because when life gives you melons, you might be dyslexic.
 
 --
 
-### Make sure to download and extract the zip from this repository before installing it.
+You can install here: https://chrome.google.com/webstore/detail/dyslexia-simulator/kdgccolojenjijefmdmclodecaeiimkl
 
---
+Current Version: 1.0 -> https://github.com/Weffe/Dyslexia-Simulator/tree/version_1.0
 
-## How to install on Google Chrome with Developer Mode
-
-    - First, go to Settings.
-    - Navigate to Extensions tab.
-    - At the very top, check Developer Mode.
-    - Next, click the button labeled "Load unpacked extension..."
-    - In the popup, navigate to the Dyslexia-Simulator folder and click open
-    - Done. You should notice the lemon icon popup on your toolbar.
+Disclaimer: This Master branch is the experimental branch meant for development only. 
 
 --
 
